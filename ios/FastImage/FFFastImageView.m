@@ -205,11 +205,15 @@
                                 if (weakSelf.onFastImageError) {
                                     weakSelf.onFastImageError(@{});
                                 }
+                                
                                 if (weakSelf.onFastImageLoadEnd) {
                                     weakSelf.onFastImageLoadEnd(@{});
-                                }
                         } else {
                             weakSelf.hasCompleted = YES;
+                            weakSelf.alpha = 0;
+                            [UIView animateWithDuration:0.5 animations:^{
+                                weakSelf.alpha = 1;
+                            }];
                             [weakSelf sendOnLoad:image];
                             if (weakSelf.onFastImageLoadEnd) {
                                 weakSelf.onFastImageLoadEnd(@{});
