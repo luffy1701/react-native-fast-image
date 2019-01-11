@@ -84,6 +84,7 @@ export interface FastImageProperties {
     source: FastImageSource | number
     resizeMode?: FastImage.ResizeMode
     fallback?: boolean
+    fadeAnim?: boolean
 
     onLoadStart?(): void
 

@@ -116,6 +116,7 @@ const FastImageView = requireNativeComponent('FastImageView', FastImage, {
         onFastImageLoad: true,
         onFastImageError: true,
         onFastImageLoadEnd: true,
+        fadeAnim: true,
     },
 })
 

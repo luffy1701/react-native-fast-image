@@ -186,6 +186,10 @@
 
 - (void)downloadImage:(FFFastImageSource *) source options:(SDWebImageOptions) options {
     __weak typeof(self) weakSelf = self; // Always use a weak reference to self in blocks
+
+    if (_fadeAnim) {
+        weakSelf.alpha = 0;
+    }
     [self sd_setImageWithURL:_source.url
             placeholderImage:nil
                      options:options
@@ -205,9 +209,10 @@
                                 if (weakSelf.onFastImageError) {
                                     weakSelf.onFastImageError(@{});
                                 }
-                                
+
                                 if (weakSelf.onFastImageLoadEnd) {
                                     weakSelf.onFastImageLoadEnd(@{});
+                                }
                         } else {
                             weakSelf.hasCompleted = YES;
                             weakSelf.alpha = 0;
