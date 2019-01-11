@@ -17,6 +17,8 @@ import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
+import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -96,7 +98,7 @@ class FastImageViewManager extends SimpleViewManager<FastImageViewWithUrl> imple
         eventEmitter.receiveEvent(viewId, REACT_ON_LOAD_START_EVENT, new WritableNativeMap());
 
         if (requestManager != null) {
-            requestManager
+            RequestBuilder builder = requestManager
                     // This will make this work for remote and local images. e.g.
                     //    - file:///
                     //    - content://
@@ -106,7 +108,15 @@ class FastImageViewManager extends SimpleViewManager<FastImageViewWithUrl> imple
                     .load(imageSource.getSourceForLoad())
                     .apply(FastImageViewConverter.getOptions(context, imageSource, source))
                     .listener(new FastImageRequestListener(key))
-                    .into(view);
+
+                    if (source.hasKey("fadeAnim")) {
+                        boolean fadeIn = source.getBoolean("fadeAnim");
+                        if (fadeIn) {
+                            builder.transition(DrawableTransitionOptions.withCrossFade());
+                        }
+                    }
+                    
+                    builder.into(view);
         }
     }
 
